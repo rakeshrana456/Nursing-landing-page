@@ -907,6 +907,7 @@
                 
                 <!-- Lead Capture Form -->
                 <form id="leadForm" onsubmit="handleFormSubmit(event)">
+
                   <div class="form-group">
                     <label for="nurseName">Full Name *</label>
                     <input type="text" id="nurseName" name="nurseName" required placeholder="Enter your full name">
@@ -919,7 +920,7 @@
                            pattern="91[0-9]{10}" maxlength="12">
                   </div>
                 
-                  <button type="submit" class="submit-button" id="submitBtn">Get Started Now</button>
+                  <button type="submit" class="submit-button" id="submitBtn">Get Start Now</button>
                 
                   <!-- ✅ Inline message area -->
                   <div id="formMessage"></div>
@@ -1250,71 +1251,76 @@
 
       
         async function sendOnboardingMessage(contact) {
-          try {
-            const res = await fetch("https://dmhdocdev.electrovese.in/api/send/onboarding/message", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({ contact }),
-            });
-    
-            if (!res.ok) {
-              throw new Error("Failed to send message");
-            }
-    
-            const data = await res.json();
-         
+    try {
+        console.log("Sending contact:", contact);
+        const res = await fetch("https://dmhdocdev.electrovese.in/api/send/onboarding/message", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ contact }),
+        });
 
-            return data;
-          } catch (error) {
-            console.error("API error:", error);
-            throw error;
-          }
+        console.log("Response status:", res.status);
+
+        let data = null;
+        try {
+            data = await res.json();
+        } catch (err) {
+            console.error("Failed to parse JSON:", err);
         }
+        console.log("Response data:", data);
+
+        if (!res.ok) throw new Error(data?.message || "Failed to send message");
+
+        return data;
+    } catch (error) {
+        console.error("API error:", error);
+        throw error;
+    }
+}
+
     
-        async function handleFormSubmit(event) {
-          event.preventDefault();
-        
-          const whatsappInput = document.getElementById("whatsappNumber");
-          const formMessage = document.getElementById("formMessage");
-        
-          let contact = whatsappInput.value.trim();
-        
-          // Clear previous messages
-          formMessage.textContent = "";
-          formMessage.className = "";
-        
-      
-          if (!/^91\d{10}$/.test(contact)) {
-            formMessage.textContent = "❌ Please enter a valid WhatsApp number starting with 91 (e.g., 919876543210).";
-            formMessage.classList.add("error");
-            return;
-          }
-        
-          try {
-            await sendOnboardingMessage(contact);
-        
-           
-            formMessage.textContent = "✅ Success! Check your WhatsApp for the download link and next steps.";
-            formMessage.classList.add("success");
-            whatsappInput.value = "";
-            setTimeout(() => {
-              window.location.href = "thank-you.html";
-            }, 2000);
-        
-            setTimeout(() => {
-              formMessage.textContent = "";
-              formMessage.className = "";
-            }, 3000);
-          } catch (error) {
-            formMessage.textContent = "❌ Something went wrong. Please try again later.";
-            formMessage.classList.add("error");
-          }
-        }
-        
-        
-        
+async function handleFormSubmit(event) {
+    event.preventDefault();
+  
+    const nameInput = document.getElementById("nurseName");
+    const whatsappInput = document.getElementById("whatsappNumber");
+    const formMessage = document.getElementById("formMessage");
+  
+    const name = nameInput.value.trim();
+    let contact = whatsappInput.value.trim();
+  
+    formMessage.textContent = "";
+    formMessage.className = "";
+  
+    // ✅ Validate WhatsApp number (must start with 91)
+    if (!/^91\d{10}$/.test(contact)) {
+      formMessage.textContent = "❌ Please enter a valid WhatsApp number starting with 91 (e.g., 919876543210).";
+      formMessage.classList.add("error");
+      return;
+    }
+  
+    try {
+      // ✅ Call API
+      await sendOnboardingMessage(contact);
+  
+      // ✅ Show success message
+      formMessage.textContent = "✅ Success! Check your WhatsApp for the download link and next steps.";
+      formMessage.classList.add("success");
+  
+      // ✅ Store user details in sessionStorage for thank-you page
+      sessionStorage.setItem("nurseName", name);
+      sessionStorage.setItem("nurseWhatsapp", contact);
+  
+      // ✅ Redirect after a short delay (optional)
+      setTimeout(() => {
+        window.location.href = "thank-you.html";
+      }, 1500);
+    } catch (error) {
+      formMessage.textContent = "❌ Something went wrong. Please try again later.";
+      formMessage.classList.add("error");
+    }
+  }
+  
         
   
     
@@ -1413,7 +1419,7 @@
                     `Let's transform healthcare together! 💙`
                 );
                 
-                // Track successful submission
+             
                 trackEvent('form_success', {
                     name: name,
                     whatsapp: whatsapp
@@ -1424,7 +1430,7 @@
                 sessionStorage.setItem('nurseWhatsapp', whatsapp);
                 
                 // Redirect to thank you page
-                window.location.href = '/thank-you.html';
+                ///window.location.href = '/thank-you.html';
                 
         
         // Track form field interactions
