@@ -549,7 +549,7 @@
             </div>
 
     
-               <a href="in.html" class="back-button">  ← Back to Landing</a> 
+               <a href="index.html" class="back-button">  ← Back to Landing</a> 
               
             <!-- WhatsApp Section -->
             <!-- <div class="whatsapp-section">
@@ -692,18 +692,21 @@
         
         // Track download clicks
         function trackDownload(source) {
-    trackEvent('app_download_click', {
-        source: source,
-        name: sessionStorage.getItem('nurseName'),
-        whatsapp: sessionStorage.getItem('nurseWhatsapp')
-    });
-    
-    if (source === 'play_store') {
-        window.open('https://play.google.com/store/apps/details?id=com.morepen.doctorapp', '_blank');
-    } else if (source === 'app_store') {
-        window.open('https://apps.apple.com/in/app/medical-partner-app/id6751804239', '_blank');
-    }
-}
+            trackEvent('app_download_click', {
+                source: source,
+                name: sessionStorage.getItem('nurseName'),
+                whatsapp: sessionStorage.getItem('nurseWhatsapp')
+            });
+        
+            if (source === 'play_store') {
+                // Open in same tab
+                window.location.href = 'https://play.google.com/store/apps/details?id=com.morepen.doctorapp';
+            } else if (source === 'app_store') {
+                // Open in same tab
+                window.location.href = 'https://apps.apple.com/in/app/medical-partner-app/id6751804239';
+            }
+        }
+        
 
         
         // Send WhatsApp message
