@@ -629,104 +629,101 @@
     </div>
     
     <script>
-        // Get user data from session storage
-        window.addEventListener('load', function() {
-            const userName = sessionStorage.getItem('nurseName');
-            const userWhatsapp = sessionStorage.getItem('nurseWhatsapp');
-            
-            if (userName) {
-                document.getElementById('userName').textContent = userName + '! 👋';
-            }
-            
-            // Track page view
-            trackEvent('thank_you_page_view', {
-                name: userName,
-                whatsapp: userWhatsapp
-            });
+       // Get user data from session storage
+       window.addEventListener('load', function() {
+        const userName = sessionStorage.getItem('nurseName');
+        const userWhatsapp = sessionStorage.getItem('nurseWhatsapp');
+        
+        if (userName) {
+            document.getElementById('userName').textContent = userName + '! 👋';
+        }
+        
+        // Track page view
+        trackEvent('thank_you_page_view', {
+            name: userName,
+            whatsapp: userWhatsapp
+        });
+    });
+    
+    // Tracking function
+    function trackEvent(eventName, eventData = {}) {
+        console.log('Event Tracked:', eventName, {
+            timestamp: new Date().toISOString(),
+            ...eventData
         });
         
-        // Tracking function
-        function trackEvent(eventName, eventData = {}) {
-            console.log('Event Tracked:', eventName, {
-                timestamp: new Date().toISOString(),
-                ...eventData
-            });
-            
-            // Send to your analytics
-            if (typeof gtag !== 'undefined') {
-                gtag('event', eventName, eventData);
-            }
-            
-            // Facebook Pixel
-            if (typeof fbq !== 'undefined') {
-                fbq('track', eventName, eventData);
-            }
+        // Send to your analytics
+        if (typeof gtag !== 'undefined') {
+            gtag('event', eventName, eventData);
         }
         
-        // Track download clicks
-        function trackDownload(source, platform = 'android') {
-            trackEvent('app_download_click', {
-                source: source,
-                platform: platform,
-                name: sessionStorage.getItem('nurseName'),
-                whatsapp: sessionStorage.getItem('nurseWhatsapp')
-            });
-            
-            // Redirect to appropriate store
-            if (platform === 'android' || source === 'play_store') {
-                window.open('https://play.google.com/store/apps/details?id=com.morepen.doctorapp', '_blank');
-            } else if (source === 'app_store') {
-                window.open('https://apps.apple.com/in/app/medical-partner-app/id6751804239', '_blank');
-            } else {
-                // Default to Android
-                window.open('https://play.google.com/store/apps/details?id=com.morepen.doctorapp', '_blank');
-            }
+        // Facebook Pixel
+        if (typeof fbq !== 'undefined') {
+            fbq('track', eventName, eventData);
+        }
+    }
+    
+    // Track download clicks
+    function trackDownload(source) {
+        trackEvent('app_download_click', {
+            source: source,
+            name: sessionStorage.getItem('nurseName'),
+            whatsapp: sessionStorage.getItem('nurseWhatsapp')
+        });
+    
+        if (source === 'play_store') {
+            // Open in same tab
+            window.location.href = 'https://play.google.com/store/apps/details?id=com.morepen.doctorapp';
+        } else if (source === 'app_store') {
+            // Open in same tab
+            window.location.href = 'https://apps.apple.com/in/app/medical-partner-app/id6751804239';
+        }
+    }
+    
+    // Send WhatsApp message
+    function sendWhatsApp() {
+        const name = sessionStorage.getItem('nurseName') || 'there';
+        const whatsapp = sessionStorage.getItem('nurseWhatsapp');
+        
+        const message = encodeURIComponent(
+            `Hello ${name}! 🎉\n\n` +
+            `Welcome to Dr Morepen Home - India's leading home healthcare platform!\n\n` +
+            `📱 Download our app here:\n` +
+            `Android: https://play.google.com/store/apps/details?id=com.morepen.doctorapp\n` +
+            `iOS: https://apps.apple.com/in/app/medical-partner-app/id6751804239\n\n` +
+            `Next Steps:\n` +
+            `✅ Download and install the app\n` +
+            `✅ Complete your profile with GNM/ANM registration\n` +
+            `✅ Upload required documents\n` +
+            `✅ Get verified within 24 hours\n` +
+            `✅ Start receiving visit requests!\n\n` +
+            `Earn ₹600 per visit with daily payouts! 💰\n\n` +
+            `Questions? Reply to this message anytime!\n\n` +
+            `Let's transform healthcare together! 💙`
+        );
+        
+        trackEvent('whatsapp_click', {
+            name: name,
+            whatsapp: whatsapp
+        });
+        
+        if (whatsapp) {
+            window.open(`https://wa.me/91${whatsapp}?text=${message}`, '_blank');
+        } else {
+            alert('WhatsApp number not found. Please contact support.');
         }
         
-        // Send WhatsApp message
-        function sendWhatsApp() {
-            const name = sessionStorage.getItem('nurseName') || 'there';
-            const whatsapp = sessionStorage.getItem('nurseWhatsapp');
-            
-            const message = encodeURIComponent(
-                `Hello ${name}! 🎉\n\n` +
-                `Welcome to Dr Morepen Home - India's leading home healthcare platform!\n\n` +
-                `📱 Download our app here:\n` +
-                `Android: https://play.google.com/store/apps/details?id=com.morepen.doctorapp\n` +
-                `iOS: https://apps.apple.com/in/app/medical-partner-app/id6751804239\n\n` +
-                `Next Steps:\n` +
-                `✅ Download and install the app\n` +
-                `✅ Complete your profile with GNM/ANM registration\n` +
-                `✅ Upload required documents\n` +
-                `✅ Get verified within 24 hours\n` +
-                `✅ Start receiving visit requests!\n\n` +
-                `Earn ₹600 per visit with daily payouts! 💰\n\n` +
-                `Questions? Reply to this message anytime!\n\n` +
-                `Let's transform healthcare together! 💙`
-            );
-            
-            trackEvent('whatsapp_click', {
-                name: name,
-                whatsapp: whatsapp
-            });
-            
-            if (whatsapp) {
-                window.open(`https://wa.me/91${whatsapp}?text=${message}`, '_blank');
-            } else {
-                alert('WhatsApp number not found. Please contact support.');
-            }
-            
-            return false;
+        return false;
+    }
+    
+    // Track time on page
+    let timeOnPage = 0;
+    setInterval(function() {
+        timeOnPage += 10;
+        if (timeOnPage % 30 === 0) {
+            trackEvent('thank_you_time_on_page', {seconds: timeOnPage});
         }
-        
-        // Track time on page
-        let timeOnPage = 0;
-        setInterval(function() {
-            timeOnPage += 10;
-            if (timeOnPage % 30 === 0) {
-                trackEvent('thank_you_time_on_page', {seconds: timeOnPage});
-            }
-        }, 10000);
+    }, 10000);
     </script>
 </body>
 </html>
