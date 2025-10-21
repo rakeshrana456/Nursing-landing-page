@@ -13,7 +13,6 @@
             padding: 0;
             box-sizing: border-box;
         }
-
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
@@ -23,27 +22,7 @@
             min-height: 100vh;
             padding: 20px;
         }
-        .back-button {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 10px 18px;
-  background: #4CAF50; /* green background */
-  color: white;
-  text-decoration: none;
-  font-weight: 500;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  transition: all 0.3s ease;
-  font-family: Arial, sans-serif;
-}
-
-.back-button:hover {
-  background: #45a049; /* slightly darker green on hover */
-  transform: translateY(-2px);
-  box-shadow: 0 6px 10px rgba(0,0,0,0.15);
-}
-
+        
         .container {
             max-width: 800px;
             margin: 0 auto;
@@ -510,7 +489,7 @@
 <body>
     <div class="container">
         <!-- Success Animation -->
-        <!-- <div class="success-animation">
+        <div class="success-animation">
             <div class="checkmark">
                 <svg viewBox="0 0 52 52">
                     <path fill="none" d="M14 27l7.5 7.5L38 18"/>
@@ -519,7 +498,7 @@
             <h1 class="success-title">🎉 Registration Successful!</h1>
             <p class="success-subtitle">Welcome to Dr Morepen Home,</p>
             <p class="user-name" id="userName">Nurse</p>
-        </div> -->
+        </div>
         
         <!-- Main Card -->
         <div class="thank-you-card">
@@ -528,7 +507,7 @@
                 <h2>📱 Download the Dr Morepen Home App</h2>
                 <p>Get started in 3 minutes and begin receiving visit requests today!</p>
                 
-                <button class="primary-download-btn">
+                <button class="primary-download-btn" onclick="trackDownload('primary_button', 'android')">
                     <svg fill="currentColor" viewBox="0 0 20 20">
                         <path d="M10 2a1 1 0 011 1v8.586l2.293-2.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 11.586V3a1 1 0 011-1z"/>
                         <path d="M3 14a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"/>
@@ -540,19 +519,14 @@
                     <a href="https://play.google.com/store/apps/details?id=com.morepen.doctorapp" class="app-badge" onclick="trackDownload('play_store')" target="_blank">
                         <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='53'%3E%3Crect width='180' height='53' rx='8' fill='%23000'/%3E%3Ctext x='60' y='18' fill='%23fff' font-size='10' font-family='Arial'%3EGET IT ON%3C/text%3E%3Ctext x='60' y='38' fill='%23fff' font-size='18' font-family='Arial' font-weight='bold'%3EGoogle Play%3C/text%3E%3Cpath d='M25 15l10 10-10 10V15z' fill='%2334A853'/%3E%3Cpath d='M25 35l-8-8 8-8v16z' fill='%23FBBC04'/%3E%3Cpath d='M25 15l8 8-8 8V15z' fill='%23EA4335'/%3E%3Cpath d='M25 31l8-8-8-8v16z' fill='%234285F4'/%3E%3C/svg%3E" alt="Get it on Google Play">
                     </a>
-                   <a href="https://apps.apple.com/in/app/medical-partner-app/id6751804239" class="app-badge" onclick="trackDownload('app_store')" target="_blank">
-
+                    <a href="https://apps.apple.com/in/app/medical-partner-app/id6751804239" class="app-badge" onclick="trackDownload('app_store')" target="_blank">
                         <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='53'%3E%3Crect width='180' height='53' rx='8' fill='%23000'/%3E%3Ctext x='60' y='18' fill='%23fff' font-size='10' font-family='Arial'%3EDownload on the%3C/text%3E%3Ctext x='60' y='38' fill='%23fff' font-size='18' font-family='Arial' font-weight='bold'%3EApp Store%3C/text%3E%3Cpath d='M28 20l-5 8h10l-5-8zm-3 10l3-5-3 5zm6 0l-3-5 3 5z' fill='%23fff'/%3E%3C/svg%3E" alt="Download on the App Store">
                     </a>
-                </div>  
-                
+                </div>
             </div>
-
-    
-               <a href="in.html" class="back-button">  ← Back to Landing</a> 
-              
+            
             <!-- WhatsApp Section -->
-            <!-- <div class="whatsapp-section">
+            <div class="whatsapp-section">
                 <h3>💬 Or Get Download Link on WhatsApp</h3>
                 <a href="#" class="whatsapp-btn" id="whatsappBtn" onclick="sendWhatsApp()">
                     <svg fill="currentColor" viewBox="0 0 24 24">
@@ -560,10 +534,10 @@
                     </svg>
                     Send Me Download Link
                 </a>
-            </div> -->
+            </div>
             
             <!-- Next Steps -->
-            <!-- <div class="next-steps">
+            <div class="next-steps">
                 <h3>🚀 Next Steps to Get Started</h3>
                 <ul class="steps-list">
                     <li class="step-item">
@@ -602,10 +576,10 @@
                         </div>
                     </li>
                 </ul>
-            </div> -->
+            </div>
             
             <!-- Support Section -->
-            <!-- <div class="support-section">
+            <div class="support-section">
                 <h3>💁‍♀️ Need Help?</h3>
                 <p>Our support team is here to assist you 24/7</p>
                 <div class="support-buttons">
@@ -623,10 +597,10 @@
                         WhatsApp Us
                     </a>
                 </div>
-            </div> -->
+            </div>
             
             <!-- Benefits Reminder -->
-            <!-- <div class="benefits-reminder">
+            <div class="benefits-reminder">
                 <h3>✨ What You Get with Dr Morepen Home</h3>
                 <div class="benefits-grid">
                     <div class="benefit-item">
@@ -645,14 +619,14 @@
                         <p>Same-day bank transfer</p>
                     </div>
                 </div>
-            </div> -->
+            </div>
         </div>
         
         <!-- Footer -->
-        <!-- <div class="thank-you-footer">
+        <div class="thank-you-footer">
             <p>&copy; 2025 Dr Morepen Home. All rights reserved.</p>
             <p><a href="/">Back to Home</a> | <a href="/privacy">Privacy Policy</a> | <a href="/terms">Terms of Service</a></p>
-        </div> -->
+        </div>
     </div>
     
     <script>
@@ -691,20 +665,24 @@
         }
         
         // Track download clicks
-        function trackDownload(source) {
-    trackEvent('app_download_click', {
-        source: source,
-        name: sessionStorage.getItem('nurseName'),
-        whatsapp: sessionStorage.getItem('nurseWhatsapp')
-    });
-    
-    if (source === 'play_store') {
-        window.open('https://play.google.com/store/apps/details?id=com.morepen.doctorapp', '_blank');
-    } else if (source === 'app_store') {
-        window.open('https://apps.apple.com/in/app/medical-partner-app/id6751804239', '_blank');
-    }
-}
-
+        function trackDownload(source, platform = 'android') {
+            trackEvent('app_download_click', {
+                source: source,
+                platform: platform,
+                name: sessionStorage.getItem('nurseName'),
+                whatsapp: sessionStorage.getItem('nurseWhatsapp')
+            });
+            
+            // Redirect to appropriate store
+            if (platform === 'android' || source === 'play_store') {
+                window.open('https://play.google.com/store/apps/details?id=com.morepen.doctorapp', '_blank');
+            } else if (source === 'app_store') {
+                window.open('https://apps.apple.com/in/app/medical-partner-app/id6751804239', '_blank');
+            } else {
+                // Default to Android
+                window.open('https://play.google.com/store/apps/details?id=com.morepen.doctorapp', '_blank');
+            }
+        }
         
         // Send WhatsApp message
         function sendWhatsApp() {
