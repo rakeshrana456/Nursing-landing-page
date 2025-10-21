@@ -516,12 +516,11 @@
                 </button>
                 
                 <div class="app-badges">
-                    <a href="https://play.google.com/store/apps/details?id=com.morepen.doctorapp" class="app-badge" onclick="trackDownload('play_store')" target="_blank">
-                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='53'%3E%3Crect width='180' height='53' rx='8' fill='%23000'/%3E%3Ctext x='60' y='18' fill='%23fff' font-size='10' font-family='Arial'%3EGET IT ON%3C/text%3E%3Ctext x='60' y='38' fill='%23fff' font-size='18' font-family='Arial' font-weight='bold'%3EGoogle Play%3C/text%3E%3Cpath d='M25 15l10 10-10 10V15z' fill='%2334A853'/%3E%3Cpath d='M25 35l-8-8 8-8v16z' fill='%23FBBC04'/%3E%3Cpath d='M25 15l8 8-8 8V15z' fill='%23EA4335'/%3E%3Cpath d='M25 31l8-8-8-8v16z' fill='%234285F4'/%3E%3C/svg%3E" alt="Get it on Google Play">
+                    <a href="https://play.google.com/store/apps/details?id=com.morepen.doctorapp" class="app-badge" onclick="trackDownload('play_store')" >
+                        <img src="Images/playstore.png">
                     </a>
-                    <a href="https://apps.apple.com/in/app/medical-partner-app/id6751804239" class="app-badge" onclick="trackDownload('app_store')" target="_blank">
-                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='53'%3E%3Crect width='180' height='53' rx='8' fill='%23000'/%3E%3Ctext x='60' y='18' fill='%23fff' font-size='10' font-family='Arial'%3EDownload on the%3C/text%3E%3Ctext x='60' y='38' fill='%23fff' font-size='18' font-family='Arial' font-weight='bold'%3EApp Store%3C/text%3E%3Cpath d='M28 20l-5 8h10l-5-8zm-3 10l3-5-3 5zm6 0l-3-5 3 5z' fill='%23fff'/%3E%3C/svg%3E" alt="Download on the App Store">
-                    </a>
+                   <a href="https://apps.apple.com/in/app/medical-partner-app/id6751804239" class="app-badge" onclick="trackDownload('app_store')" >
+<img src="Images/appstore.png" alt="">
                 </div>
             </div>
             
@@ -583,7 +582,7 @@
                 <h3>💁‍♀️ Need Help?</h3>
                 <p>Our support team is here to assist you 24/7</p>
                 <div class="support-buttons">
-                    <a href="mailto:sapna.taack@drmorepenhome.com" class="support-btn email" onclick="trackEvent('contact_email')">
+                    <a href="mailto:drmorepenhome@gmail.com" class="support-btn email" onclick="trackEvent('contact_email')">
                         <svg fill="currentColor" viewBox="0 0 20 20">
                             <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
                             <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
@@ -665,24 +664,20 @@
         }
         
         // Track download clicks
-        function trackDownload(source, platform = 'android') {
-            trackEvent('app_download_click', {
-                source: source,
-                platform: platform,
-                name: sessionStorage.getItem('nurseName'),
-                whatsapp: sessionStorage.getItem('nurseWhatsapp')
-            });
-            
-            // Redirect to appropriate store
-            if (platform === 'android' || source === 'play_store') {
-                window.open('https://play.google.com/store/apps/details?id=com.morepen.doctorapp', '_blank');
-            } else if (source === 'app_store') {
-                window.open('https://apps.apple.com/in/app/medical-partner-app/id6751804239', '_blank');
-            } else {
-                // Default to Android
-                window.open('https://play.google.com/store/apps/details?id=com.morepen.doctorapp', '_blank');
-            }
-        }
+        function trackDownload(source) {
+    trackEvent('app_download_click', {
+        source: source,
+        name: sessionStorage.getItem('nurseName'),
+        whatsapp: sessionStorage.getItem('nurseWhatsapp')
+    });
+    
+    if (source === 'play_store') {
+        window.open('https://play.google.com/store/apps/details?id=com.morepen.doctorapp', );
+    } else if (source === 'app_store') {
+        window.open('https://apps.apple.com/in/app/medical-partner-app/id6751804239',);
+    }
+}
+
         
         // Send WhatsApp message
         function sendWhatsApp() {
