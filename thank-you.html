@@ -665,18 +665,21 @@
         
         // Track download clicks
         function trackDownload(source) {
-    trackEvent('app_download_click', {
-        source: source,
-        name: sessionStorage.getItem('nurseName'),
-        whatsapp: sessionStorage.getItem('nurseWhatsapp')
-    });
-    
-    if (source === 'play_store') {
-        window.open('https://play.google.com/store/apps/details?id=com.morepen.doctorapp', );
-    } else if (source === 'app_store') {
-        window.open('https://apps.apple.com/in/app/medical-partner-app/id6751804239',);
-    }
-}
+            trackEvent('app_download_click', {
+                source: source,
+                name: sessionStorage.getItem('nurseName'),
+                whatsapp: sessionStorage.getItem('nurseWhatsapp')
+            });
+        
+            if (source === 'play_store') {
+                // Open in same tab
+                window.location.href = 'https://play.google.com/store/apps/details?id=com.morepen.doctorapp';
+            } else if (source === 'app_store') {
+                // Open in same tab
+                window.location.href = 'https://apps.apple.com/in/app/medical-partner-app/id6751804239';
+            }
+        }
+        
 
         
         // Send WhatsApp message
@@ -726,3 +729,4 @@
     </script>
 </body>
 </html>
+
