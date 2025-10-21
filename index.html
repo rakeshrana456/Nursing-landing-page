@@ -11,16 +11,7 @@
     <meta property="og:title" content="Earn ₹600 Per Visit - Home Nursing Jobs with Daily Payouts">
     <meta property="og:description" content="Flexible part-time nursing opportunities for registered nurses. Work on your schedule, earn daily.">
     <meta property="og:type" content="website">
-    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17159345120"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'AW-17159345120');
-  gtag('config', 'AW-17014939967');
-  gtag('config', 'G-EV853SH2ME');
-</script>
+    
     <style>
         * {
             margin: 0;
@@ -71,7 +62,7 @@
         
         .logo-img {
             height: 40px;
-            width:50px
+            width: auto;
         }
         
         .cta-button {
@@ -126,16 +117,10 @@
             display: flex;
             justify-content: center;
             align-items: center;
-         
-           
-       
-
-        
         }
         
         .hero-image img {
             max-width: 100%;
-            width:900px;
             height: auto;
             border-radius: 20px;
             box-shadow: 0 10px 40px rgba(0,0,0,0.1);
@@ -681,6 +666,22 @@
             color: #666;
             line-height: 1.8;
         }
+        #formMessage {
+          margin-top: 10px;
+          font-weight: 500;
+          display: none;
+        }
+        
+        #formMessage.error {
+          color: #d32f2f; 
+          display: block;
+        }
+        
+        #formMessage.success {
+          color: #2e7d32; 
+          display: block;
+        }
+        
         
         .faq-item.active .faq-answer {
             max-height: 300px;
@@ -818,12 +819,12 @@
         <div class="container">
             <div class="header-content">
                 <div class="logo">
-                    <img src="Images/dr_morepen_home_logo@2x.png" alt="" style="width: 170px;">
+                  <img src="Images/dr_morepen_home_logo@2x.png" alt="" style="width: 170px;">
                         <rect x="10" y="15" width="30" height="30" rx="5" fill="#1a73e8"/>
                         <circle cx="25" cy="30" r="8" fill="white"/>
                         <rect x="20" y="26" width="10" height="2" fill="#1a73e8"/>
                         <rect x="24" y="22" width="2" height="10" fill="#1a73e8"/>
-                      
+                        
                     </svg>
                 </div>
                 <a href="Download.html" class="cta-button" id="headerDownloadBtn" onclick="trackEvent('header_download_click')" target="_blank">Download App</a>
@@ -861,8 +862,7 @@
                 
                 <!-- Hero Image -->
                 <div class="hero-image">
-                    
-                        <img src="/Images/generated_image.png" alt="">
+                   <img src="Images/generated_image.png" alt="">
                         <!-- Background -->
                         <rect width="500" height="400" fill="#e8f0fe" rx="20"/>
                         
@@ -904,25 +904,27 @@
     </section>
                 
                 <!-- Lead Capture Form -->
-                <div class="lead-form">
-                    <h3>🚀 Start Your Journey Today</h3>
-                    <form id="leadForm" onsubmit="handleFormSubmit(event)">
-                        <div class="form-group">
-                            <label for="nurseName">Full Name *</label>
-                            <input type="text" id="nurseName" name="nurseName" required placeholder="Enter your full name">
-                        </div>
-                        <div class="form-group">
-                            <label for="whatsappNumber">WhatsApp Number *</label>
-                            <input type="tel" id="whatsappNumber" name="whatsappNumber" required placeholder="10-digit mobile number" pattern="[0-9]{10}" maxlength="10">
-                        </div>
-                       <a href="index-thank.html">
-                        <button type="submit" class="submit-button" id="submitBtn">Get Started Now</button>
-                        <div class="success-message" id="successMessage"></a>
-                            ✅ Success! Check your WhatsApp for the download link and next steps.
-                        </div>
-                        <p class="form-note">🔒 Your information is secure and will only be used to connect you with our team.</p>
-                    </form>
-                </div>
+                <form id="leadForm" onsubmit="handleFormSubmit(event)">
+                  <div class="form-group">
+                    <label for="nurseName">Full Name *</label>
+                    <input type="text" id="nurseName" name="nurseName" required placeholder="Enter your full name">
+                  </div>
+                
+                  <div class="form-group">
+                    <label for="whatsappNumber">WhatsApp Number *</label>
+                    <input type="tel" id="whatsappNumber" name="whatsappNumber" required
+                           placeholder="Enter number starting with 91"
+                           pattern="91[0-9]{10}" maxlength="12">
+                  </div>
+                
+                  <button type="submit" class="submit-button" id="submitBtn">Get Started Now</button>
+                
+                  <!-- ✅ Inline message area -->
+                  <div id="formMessage"></div>
+                
+                  <p class="form-note">🔒 Your information is secure and will only be used to connect you with our team.</p>
+                </form>
+                
             </div>
         </div>
     </section>
@@ -1242,6 +1244,78 @@
     </footer>
 
     <script>
+
+
+      
+        async function sendOnboardingMessage(contact) {
+          try {
+            const res = await fetch("https://dmhdocdev.electrovese.in/api/send/onboarding/message", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ contact }),
+            });
+    
+            if (!res.ok) {
+              throw new Error("Failed to send message");
+            }
+    
+            const data = await res.json();
+         
+
+            return data;
+          } catch (error) {
+            console.error("API error:", error);
+            throw error;
+          }
+        }
+    
+        async function handleFormSubmit(event) {
+          event.preventDefault();
+        
+          const whatsappInput = document.getElementById("whatsappNumber");
+          const formMessage = document.getElementById("formMessage");
+        
+          let contact = whatsappInput.value.trim();
+        
+          // Clear previous messages
+          formMessage.textContent = "";
+          formMessage.className = "";
+        
+      
+          if (!/^91\d{10}$/.test(contact)) {
+            formMessage.textContent = "❌ Please enter a valid WhatsApp number starting with 91 (e.g., 919876543210).";
+            formMessage.classList.add("error");
+            return;
+          }
+        
+          try {
+            await sendOnboardingMessage(contact);
+        
+           
+            formMessage.textContent = "✅ Success! Check your WhatsApp for the download link and next steps.";
+            formMessage.classList.add("success");
+            whatsappInput.value = "";
+            setTimeout(() => {
+              window.location.href = "thank-you.html";
+            }, 2000);
+        
+            setTimeout(() => {
+              formMessage.textContent = "";
+              formMessage.className = "";
+            }, 3000);
+          } catch (error) {
+            formMessage.textContent = "❌ Something went wrong. Please try again later.";
+            formMessage.classList.add("error");
+          }
+        }
+        
+        
+        
+        
+  
+    
         // Tracking Events
         function trackEvent(eventName, eventData = {}) {
             // Track form view on page load
@@ -1263,7 +1337,12 @@
                 gtag('event', eventName, eventData);
             }
             
-           
+            // Send to your CRM API
+            // fetch('YOUR_CRM_ENDPOINT', {
+            //     method: 'POST',
+            //     headers: {'Content-Type': 'application/json'},
+            //     body: JSON.stringify({event: eventName, data: eventData})
+            // });
         }
 
         // Track page load and form view
@@ -1274,36 +1353,21 @@
                 location: 'hero-section'
             });
         });
+       
+
 
         // Form Submission Handler
-        async function handleFormSubmit(event) {
-            event.preventDefault();
-            
-            const submitBtn = document.getElementById('submitBtn');
-            const successMessage = document.getElementById('successMessage');
-            const form = document.getElementById('leadForm');
-            
-            const name = document.getElementById('nurseName').value;
-            const whatsapp = document.getElementById('whatsappNumber').value;
-            
-            // Validate phone number
-            if (whatsapp.length !== 10 || !/^\d+$/.test(whatsapp)) {
-                alert('Please enter a valid 10-digit WhatsApp number');
-                return;
-            }
+       
             
             // Disable submit button
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Processing...';
+           // submitBtn.disabled = true;
+          //  submitBtn.textContent = 'Processing...';
             
             // Track form submission attempt
-            trackEvent('form_submitted', {
-                name: name,
-                whatsapp: whatsapp,
-                timestamp: new Date().toISOString()
-            });
             
-            try {
+          
+             
+           // try {
                 // Send data to your CRM/Backend
                 // REPLACE THIS WITH YOUR ACTUAL API ENDPOINT
                 /*
@@ -1326,7 +1390,7 @@
                 */
                 
                 // Simulate API call (REMOVE THIS IN PRODUCTION)
-                await new Promise(resolve => setTimeout(resolve, 1000));
+                ///await new Promise(resolve => setTimeout(resolve, 1000));
                 
                 // Send WhatsApp message with download link
                 const message = encodeURIComponent(
@@ -1360,22 +1424,7 @@
                 // Redirect to thank you page
                 window.location.href = '/thank-you.html';
                 
-            } catch (error) {
-                console.error('Form submission error:', error);
-                
-                // Track error
-                trackEvent('form_error', {
-                    error: error.message,
-                    name: name,
-                    whatsapp: whatsapp
-                });
-                
-                alert('Something went wrong. Please try again or contact us directly.');
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Get Started Now';
-            }
-        }
-
+        
         // Track form field interactions
         document.getElementById('nurseName').addEventListener('focus', function() {
             trackEvent('form_field_focus', {field: 'name'});
